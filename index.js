@@ -122,6 +122,16 @@ async function fetchAndPublish() {
     return false;
 }
 
+function calculateVPD(tempC, humidity) {
+    // Calculate VPD in kPa
+    // Formula: VPD = SVP * (1 - RH/100)
+    // SVP (Saturation Vapor Pressure) in kPa: 0.6108 * exp((17.27 * T) / (T + 237.3))
+    if (typeof tempC !== 'number' || typeof humidity !== 'number') return undefined;
+    const svp = 0.6108 * Math.exp((17.27 * tempC) / (tempC + 237.3));
+    const vpd = svp * (1 - humidity / 100);
+    return Math.round(vpd * 100) / 100; // round to 2 decimals
+}
+
 function publishToMqtt(obs) {
     const base = `homeassistant/sensor/${SENSOR_NAME}`;
     const device = {
@@ -164,6 +174,7 @@ function publishToMqtt(obs) {
     ];
 
     // Add all metric fields
+    let tempC, humidity;
     if (obs.metric && typeof obs.metric === 'object') {
         const metricMap = {
             temp: { name: 'Temperature', device_class: 'temperature', unit: '°C' },
@@ -186,8 +197,23 @@ function publishToMqtt(obs) {
                     unit: meta.unit,
                     value: obs.metric[key],
                 });
+                if (key === 'temp') tempC = obs.metric[key];
             }
         }
+    }
+    if (obs.humidity !== undefined && obs.humidity !== null) {
+        humidity = obs.humidity;
+    }
+    // Calculate and publish VPD if possible
+    const vpd = calculateVPD(tempC, humidity);
+    if (vpd !== undefined) {
+        sensors.push({
+            key: 'vpd',
+            name: 'Vapor Pressure Deficit',
+            device_class: undefined,
+            unit: 'kPa',
+            value: vpd,
+        });
     }
 
     for (const sensor of sensors) {
