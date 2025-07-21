@@ -46,7 +46,7 @@ EXEC_EVERY=1m
 version: '3.8'
 services:
   weather-sensor:
-    image: ghcr.io/yourusername/weather-sensor:latest
+    image: ghcr.io/alekc/hass-mqtt-weather-sensor
     env_file:
       - .env
     restart: unless-stopped
@@ -70,7 +70,7 @@ spec:
     spec:
       containers:
       - name: weather-sensor
-        image: ghcr.io/yourusername/weather-sensor:latest
+        image: ghcr.io/alekc/hass-mqtt-weather-sensor
         env:
         - name: SENSOR_NAME
           value: "weather_london"
