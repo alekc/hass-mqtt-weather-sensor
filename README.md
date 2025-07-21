@@ -14,7 +14,7 @@ All configuration is done via environment variables:
 
 | Variable         | Description                                                      | Required | Example                  |
 |------------------|------------------------------------------------------------------|----------|--------------------------|
-| `SENSOR_NAME`    | Unique name for this sensor set (used in MQTT topics)            | Yes      | `folkestone_weather`     |
+| `SENSOR_NAME`    | Unique name for this sensor set (used in MQTT topics)            | Yes      | `weather_london`     |
 | `API_KEY`        | Weather.com API key                                              | Yes      | `your_api_key`           |
 | `STATION_ID`     | Comma-separated list of station IDs to try                       | Yes      | `ILONDON712,ILONDON857`      |
 | `RETRIES`        | Number of retries per station (default: 5)                       | No       | `3`                      |
