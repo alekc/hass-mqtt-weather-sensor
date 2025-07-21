@@ -195,7 +195,7 @@ function publishToMqtt(obs) {
         const configTopic = `${base}/${sensor.key}/config`;
         const stateTopic = `${base}/${sensor.key}/state`;
         const configPayload = {
-            name: `Weather ${SENSOR_NAME} ${sensor.name}`,
+            name: `${sensor.name}`,
             state_topic: stateTopic,
             unique_id: `${SENSOR_NAME}_${sensor.key}`,
             device,
