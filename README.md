@@ -14,7 +14,7 @@ All configuration is done via environment variables:
 
 | Variable         | Description                                                      | Required | Example                  |
 |------------------|------------------------------------------------------------------|----------|--------------------------|
-| `SENSOR_NAME`    | Unique name for this sensor set (used in MQTT topics)            | Yes      | `folkestone_weather`     |
+| `SENSOR_NAME`    | Unique name for this sensor set (used in MQTT topics)            | Yes      | `weather_london`     |
 | `API_KEY`        | Weather.com API key                                              | Yes      | `your_api_key`           |
 | `STATION_ID`     | Comma-separated list of station IDs to try                       | Yes      | `ILONDON712,ILONDON857`      |
 | `RETRIES`        | Number of retries per station (default: 5)                       | No       | `3`                      |
@@ -46,7 +46,7 @@ EXEC_EVERY=1m
 version: '3.8'
 services:
   weather-sensor:
-    image: ghcr.io/yourusername/weather-sensor:latest
+    image: ghcr.io/alekc/hass-mqtt-weather-sensor
     env_file:
       - .env
     restart: unless-stopped
@@ -70,7 +70,7 @@ spec:
     spec:
       containers:
       - name: weather-sensor
-        image: ghcr.io/yourusername/weather-sensor:latest
+        image: ghcr.io/alekc/hass-mqtt-weather-sensor
         env:
         - name: SENSOR_NAME
           value: "weather_london"
