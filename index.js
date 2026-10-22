@@ -2,7 +2,8 @@
 require('dotenv').config();
 const axios = require('axios');
 const mqtt = require('mqtt');
-const parseDuration = require('parse-duration');
+// parse-duration 2.x is ESM-only; require(esm) exposes it as .default
+const parseDuration = require('parse-duration').default;
 
 const {
     SENSOR_NAME,
